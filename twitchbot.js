@@ -28,20 +28,20 @@ async function main() {
      );
 
     async function getBridge() {
-        const results = await discovery.upnpSearch(10000);
+//        const results = await discovery.upnpSearch(10000);
         // Results will be an array of bridges that were found
-        console.log(JSON.stringify(results, null, 2));
-        if (results[0] === undefined) {
+ //       console.log(JSON.stringify(results, null, 2));
+        //if (results[0] === undefined) {
             return "192.168.0.102"
-        } else {
-            return results[0].ipaddress;
-        }
+        //} else {
+         //   return results[0].ipaddress;
+        //}
     }
 
         const ipAddress = await getBridge();
 
         // Create an unauthenticated instance of the Hue API so that we can create a new user
-        const unauthenticatedApi = await api.createLocal(ipAddress).connect();
+        // const unauthenticatedApi = await api.createLocal(ipAddress).connect();
   
         //let createdUser;
 
@@ -65,12 +65,17 @@ async function main() {
     // Invoke the discovery and create user code
 
     //getBridge();
-    authenticatedApi.lights.getLight(1)
-  .then(lights => {
-    // Display the full capabilities from the bridge
-    console.log(JSON.stringify(lights, null, 2));
-  })
-;   
+    //    authenticatedApi.lights.getLight(1)
+    //  .then(lights => {
+    //    // Display the full capabilities from the bridge
+    //    console.log(JSON.stringify(lights, null, 2));
+    //  });
+
+    authenticatedApi.lights.getLightState(1)
+  .then(state => {
+    // Display the state of the light
+    console.log(JSON.stringify(state, null, 2));
+  });
     const ioServer = new Server( http.server , {
         cors: { 
         origin: "*", 
@@ -116,9 +121,41 @@ async function main() {
             const diceRoll = Math.floor(Math.random() * 6) + 1;
             chatClient.say(channel, `@${user} rolled a ${diceRoll}`)
         }
+        if (message === '!light off') {
+            console.log("recieved");            
+            authenticatedApi.lights.setLightState(1,{on:false}).then(result => {
+               console.log(`Light state change was successful? ${result}`);
+            });
+        }
+        if (message === '!light on') {
+            console.log("recieved");            
+            authenticatedApi.lights.setLightState(1,{on:true}).then(result => {
+               console.log(`Light state change was successful? ${result}`);
+            });
+        }
         if (message === '!light green') {
             console.log("recieved");            
-            authenticatedApi.lights.setLightState(1,state);
+            authenticatedApi.lights.setLightState(1,{hue:21840,sat:254}).then(result => {
+               console.log(`Light state change was successful? ${result}`);
+            });
+        }
+        if (message === '!light red') {
+            console.log("recieved");            
+            authenticatedApi.lights.setLightState(1,{hue:0,sat:254}).then(result => {
+               console.log(`Light state change was successful? ${result}`);
+            });
+        }
+        if (message === '!light blue') {
+            console.log("recieved");            
+            authenticatedApi.lights.setLightState(1,{hue:43680,sat:254}).then(result => {
+               console.log(`Light state change was successful? ${result}`);
+            });
+        }
+        if (message === '!light 100') {
+            console.log("recieved");            
+            authenticatedApi.lights.setLightState(1,{bri: 100}).then(result => {
+               console.log(`Light state change was successful? ${result}`);
+            });
         }
         if(message === '!spin') {
             // ioServer.on("connection", socketServer => {
