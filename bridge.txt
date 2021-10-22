@@ -1,0 +1,9 @@
+*******************************************************************************
+
+User has been created on the Hue Bridge. The following username can be used to
+authenticate with the Bridge and provide full local access to the Hue Bridge.
+YOU SHOULD TREAT THIS LIKE A PASSWORD
+
+Hue Bridge User: u5K02A1YdgwP2w5tyzPnE7auTh7RXdOZCzHVgIPJ
+Hue Bridge User Client Key: 664ADDA9E639ADA88B9DFD406DF87228
+*******************************************************************************
